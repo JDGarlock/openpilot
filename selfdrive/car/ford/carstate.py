@@ -34,6 +34,7 @@ def get_can_parser(CP):
     ("Door_FR_Open", "Doors", 0.),
     ("Door_RL_Open", "Doors", 0.),
     ("Door_RR_Open", "Doors", 0.),
+    ("SteeringColumnTorque", "EPAS_INFO", 0.),
   ]
 
   checks = [
@@ -89,7 +90,7 @@ class CarState():
     self.pcm_acc_status = cp.vl["Cruise_Status"]['Cruise_State']
     self.main_on = cp.vl["Cruise_Status"]['Cruise_State'] != 0
     self.lkas_state = cp.vl["Lane_Keep_Assist_Status"]['LaActAvail_D_Actl']
-    # TODO: we also need raw driver torque, needed for Assisted Lane Change
+    self.steeringTorque = cp.vl["EPAS_INFO"]['SteeringColumnTorque']
     self.steer_override = not cp.vl["Lane_Keep_Assist_Status"]['LaHandsOff_B_Actl']
     self.steer_error = cp.vl["Lane_Keep_Assist_Status"]['LaActDeny_B_Actl']
     print ("lkas_state:", self.lkas_state, "steer_override:", self.steer_override, "steer_error:", self.steer_error)
