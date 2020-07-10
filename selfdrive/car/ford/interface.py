@@ -51,12 +51,12 @@ class CarInterface(CarInterfaceBase):
     ret.wheelbase = 2.85
     ret.steerRatio = 14.8
     ret.mass = 3045. * CV.LB_TO_KG + STD_CARGO_KG
-    ret.lateralTuning.pid.kiBP, ret.lateralTuning.pid.kpBP = [[0.], [0.]]
+    ret.lateralTuning.pid.kiBP, ret.lateralTuning.pid.kpBP = [[9., 22.], [9., 22.]]
     ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.03], [0.005]]     # TODO: tune this was 0.01
-    ret.lateralTuning.pid.kf = 1. / MAX_ANGLE   # MAX Steer angle to normalize FF
-    ret.steerActuatorDelay = 0.5  # Default delay, not measured yet was 0.4
+    ret.lateralTuning.pid.kf =.00005   # MAX Steer angle to normalize FF
+    ret.steerActuatorDelay = 0.1  # Default delay, not measured yet was 0.4
     ret.steerLimitTimer = 0.8
-    ret.steerRateCost = 2.0 #was 1.0
+    ret.steerRateCost = 1.0 #was 1.0
     ret.centerToFront = ret.wheelbase * 0.44
     tire_stiffness_factor = 0.5328
 
