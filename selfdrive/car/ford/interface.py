@@ -49,7 +49,7 @@ class CarInterface(CarInterfaceBase):
     ret.enableCruise = True
 
     ret.wheelbase = 2.85
-    ret.steerRatio = 18.0
+    ret.steerRatio = 17.0
     ret.mass = 3045. * CV.LB_TO_KG + STD_CARGO_KG
     ret.lateralTuning.pid.kiBP, ret.lateralTuning.pid.kpBP = [[9., 24.], [9., 24.]]
     ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.05, 0.10], [0.18, 0.30]]     # TODO: tune this was 0.01
