@@ -1,5 +1,4 @@
 from opendbc.can.parser import CANParser
-from common.numpy_fast import mean
 from selfdrive.config import Conversions as CV
 from selfdrive.car.ford.values import DBC
 from common.kalman.simple_kalman import KF1D
@@ -73,7 +72,7 @@ class CarState():
     self.v_wheel_fr = cp.vl["WheelSpeed_CG1"]['WhlRl_W_Meas'] * CV.MPH_TO_MS
     self.v_wheel_rl = cp.vl["WheelSpeed_CG1"]['WhlFr_W_Meas'] * CV.MPH_TO_MS
     self.v_wheel_rr = cp.vl["WheelSpeed_CG1"]['WhlFl_W_Meas'] * CV.MPH_TO_MS
-    v_wheel = mean([self.v_wheel_fl, self.v_wheel_fr, self.v_wheel_rl, self.v_wheel_rr])
+    v_wheel = (self.v_wheel_fl + self.v_wheel_fr + self.v_wheel_rl + self.v_wheel_rr) / 4.
 
     # Kalman filter
     if abs(v_wheel - self.v_ego) > 2.0:  # Prevent large accelerations when car starts at non zero speed
