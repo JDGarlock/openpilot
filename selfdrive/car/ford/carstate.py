@@ -34,6 +34,7 @@ def get_can_parser(CP):
     ("Door_RL_Open", "Doors", 0.),
     ("Door_RR_Open", "Doors", 0.),
     ("DrvSte_Tq_Actl", "EPAS_INFO", 0.),
+    #("DrvSte_Tq_Actl", "EPAS_INFO", 0.),
   ]
 
   checks = [
