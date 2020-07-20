@@ -159,6 +159,10 @@ class Controls:
     if self.startup_event is not None:
       self.events.add(self.startup_event)
       self.startup_event = None
+      
+    #debug check device temperature to display an ice warning TODO: Make this better
+    if self.sm['thermal'].thermalStatus >= ThermalStatus.green:
+      self.events.add(EventName.iceWarning)
 
     # Create events for battery, temperature, disk space, and memory
     if self.sm['thermal'].batteryPercent < 1 and self.sm['thermal'].chargingError:
