@@ -328,6 +328,14 @@ EVENTS = {
       AlertStatus.userPrompt, AlertSize.mid,
       Priority.LOW, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 1., 2., 3.),
   },
+  
+  EventName.iceWarning: {
+    ET.PERMANENT: Alert(
+      "Ice is Possible",
+      "openpilot not recommended during icy conditions",
+      AlertStatus.normal, AlertSize.mid,
+      Priority.LOWER, VisualAlert.none, AudibleAlert.none, 0., 0., 15.),
+  },
 
   # ********** events only containing alerts that display while engaged **********
 
