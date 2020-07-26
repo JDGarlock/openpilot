@@ -1,6 +1,8 @@
 from cereal import car
+from openxc import openxc-control
 import numpy as np
-from selfdrive.car.ford.fordcan import create_steer_command, create_lkas_ui, spam_cancel_button
+from selfdrive.car.ford.fordcan import create_lkas_ui, spam_cancel_button #create_steer_command
+from selfdrive.car.ford.values import MAX_ANGLE
 from opendbc.can.packer import CANPacker
 
 
@@ -17,14 +19,14 @@ class CarController():
     self.generic_toggle_last = 0
     self.steer_alert_last = False
     self.lkas_action = 0
-    #self.lkasState = 0
 
-  def update(self, enabled, CS, frame, actuators, visual_alert, pcm_cancel):
+  def update(self, enabled, CS, frame, actuators, visual_alert, pcm_cancel, angle_steers):
 
     can_sends = []
     steer_alert = visual_alert == car.CarControl.HUDControl.VisualAlert.steerRequired
-
-    apply_steer = actuators.steer
+    angle = angle_steers/MAX_ANGLE
+    angle_cmd = clip(angle * MAX_ANGLE, - MAX_ANGLE, MAX_ANGLE)
+    #apply_steer = actuators.steer
     
     if self.enable_camera:
 
@@ -33,18 +35,21 @@ class CarController():
        can_sends.append(spam_cancel_button(self.packer))
 
       if (frame % 3) == 0:
+        if CS.out.cruiseState.enabled:
+          openxc-control --write steering_wheel_angle --value 
+        
       #Stock IPMA Message is 33Hz. PSCM accepts commands at max 44Hz. 
-        curvature = self.vehicle_model.calc_curvature(actuators.steerAngle*np.pi/180., CS.out.vEgo)
+        #curvature = self.vehicle_model.calc_curvature(actuators.steerAngle*np.pi/180., CS.out.vEgo)
 
         # The use of the toggle below is handy for trying out the various LKAS modes
-        if TOGGLE_DEBUG:
-          self.lkas_action += int(CS.out.genericToggle and not self.generic_toggle_last)
-          self.lkas_action &= 0xf
-        else:
-          self.lkas_action = 4   # 4 and 5 seem the best. 8 and 9 seem to aggressive and laggy
+        #if TOGGLE_DEBUG:
+        #  self.lkas_action += int(CS.out.genericToggle and not self.generic_toggle_last)
+        #  self.lkas_action &= 0xf
+        #else:
+        #  self.lkas_action = 4   # 4 and 5 seem the best. 8 and 9 seem to aggressive and laggy
 
-        can_sends.append(create_steer_command(self.packer, apply_steer, enabled, CS.lkas_state, CS.out.steeringAngle, curvature, self.lkas_action))
-        self.generic_toggle_last = CS.out.genericToggle
+        #can_sends.append(create_steer_command(self.packer, apply_steer, enabled, CS.lkas_state, CS.out.steeringAngle, curvature, self.lkas_action))
+        #self.generic_toggle_last = CS.out.genericToggle
         #print("Curvature:", curvature)
       #if (frame % 100) == 0:
       #  self.lkasState = 3 if enabled or CS.out.vEgo > 10 else 1
