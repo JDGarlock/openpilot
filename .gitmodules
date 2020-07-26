@@ -15,4 +15,4 @@
 	url = ../../commaai/rednose.git
 [submodule "openxc-python"]
 	path = openxc-python
-	url = https://github.com/roxasthenobody98/openxc-python.git
+	url = ../../roxasthenobody98/openxc-python.git
