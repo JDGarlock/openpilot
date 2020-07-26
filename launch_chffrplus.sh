@@ -120,7 +120,9 @@ function launch {
   export PYTHONPATH="$PWD"
   
   if ! command -v "openxc-control" > /dev/null 2>&1; then
+    mount -o rw,remount /system
     pip install openxc
+    mount -o ro,remount /system
   fi
   # start manager
   cd selfdrive
