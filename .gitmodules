@@ -13,3 +13,6 @@
 [submodule "rednose_repo"]
 	path = rednose_repo
 	url = ../../commaai/rednose.git
+[submodule "openxc-python"]
+	path = openxc-python
+	url = ../../roxasthenobody98/openxc-python.git
