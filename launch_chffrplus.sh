@@ -118,7 +118,10 @@ function launch {
   # handle pythonpath
   ln -sfn $(pwd) /data/pythonpath
   export PYTHONPATH="$PWD"
-
+  
+  if ! command -v "openxc-control" > /dev/null 2>&1; then
+    pip install openxc
+  fi
   # start manager
   cd selfdrive
   ./manager.py
