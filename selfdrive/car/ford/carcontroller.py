@@ -25,7 +25,7 @@ class CarController():
     can_sends = []
     steer_alert = visual_alert == car.CarControl.HUDControl.VisualAlert.steerRequired
 
-    apply_steer = actuators.steer
+    apply_steer = actuators.steerAngle
     if (frame % 100) == 0:
       self.lkasCounter +=1 
     if self.enable_camera:
