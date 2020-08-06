@@ -1,5 +1,6 @@
 from cereal import car
 import numpy as np
+from common.numpy_fast import interp, clip
 from selfdrive.car.ford.fordcan import create_steer_command, create_lkas_ui, spam_cancel_button
 from opendbc.can.packer import CANPacker
 
@@ -7,6 +8,10 @@ from opendbc.can.packer import CANPacker
 MAX_STEER_DELTA = 1
 TOGGLE_DEBUG = False
 COUNTER_MAX = 7
+#Angle Limits 
+ANGLE_DELTA_BP = [0., 5., 15.]
+ANGLE_DELTA_V = [5., .8, .15]     #windup
+ANGLE_DELTA_VU = [5., 3.5, 0.4] #unwind
 
 class CarController():
   def __init__(self, dbc_name, CP, VM):
@@ -19,6 +24,7 @@ class CarController():
     self.steer_alert_last = False
     self.lkas_action = 0
     self.lkasCounter = 0
+    self.lastAngle = 0
 
   def update(self, enabled, CS, frame, actuators, visual_alert, pcm_cancel):
 
@@ -29,7 +35,17 @@ class CarController():
     if (frame % 100) == 0:
       self.lkasCounter +=1 
     if self.enable_camera:
-
+      if enabled:       
+        if self.lastAngle * apply_steer > 0.:
+          angle_rate_lim = interp(CS.out.vEgo, ANGLE_DELTA_BP, ANGLE_DELTA_V)
+         else:
+          angle_rate_lim = interp(CS.out.vEgo, ANGLE_DELTA_BP, ANGLE_DELTA_VU)
+          
+        apply_steer = clip(apply_steer, self.lastAngle - angle_rate_lim, self.lastAngle + angle_rate_lim) 
+      else:
+        apply_steer = CS.out.steeringAngle
+        
+      self.lastAngle = apply_steer
       if pcm_cancel:
        print("CANCELING!!!!")
        can_sends.append(spam_cancel_button(self.packer))
