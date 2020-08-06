@@ -38,7 +38,7 @@ class CarController():
       if enabled:       
         if self.lastAngle * apply_steer > 0.:
           angle_rate_lim = interp(CS.out.vEgo, ANGLE_DELTA_BP, ANGLE_DELTA_V)
-         else:
+        else:
           angle_rate_lim = interp(CS.out.vEgo, ANGLE_DELTA_BP, ANGLE_DELTA_VU)
           
         apply_steer = clip(apply_steer, self.lastAngle - angle_rate_lim, self.lastAngle + angle_rate_lim) 
