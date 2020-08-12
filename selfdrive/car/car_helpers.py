@@ -33,6 +33,13 @@ def get_one_can(logcan):
       return can
 
 
+def get_one_can(logcan):
+  while True:
+    can = messaging.recv_one_retry(logcan)
+    if len(can.can) > 0:
+      return can
+
+
 def load_interfaces(brand_names):
   ret = {}
   for brand_name in brand_names:
