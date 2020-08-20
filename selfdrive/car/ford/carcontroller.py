@@ -40,10 +40,10 @@ class CarController():
        print("CANCELING!!!!")
        can_sends.append(spam_cancel_button(self.packer))
 
-      if (frame % 3) == 0:
+      if (frame % 1) == 0:
       #Stock IPMA Message is 33Hz. PSCM accepts commands at max 44Hz. 
         curvature = self.vehicle_model.calc_curvature(actuators.steerAngle*np.pi/180., CS.out.vEgo)
-        self.lkas_action = 4   # 4 and 5 seem the best. 8 and 9 seem to aggressive and laggy
+        self.lkas_action = 2   # 4 and 5 seem the best. 8 and 9 seem to aggressive and laggy
         if enabled:       
           if self.lastAngle * apply_steer > 0.:
             angle_rate_lim = interp(CS.out.vEgo, ANGLE_DELTA_BP, ANGLE_DELTA_V)
