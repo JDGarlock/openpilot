@@ -42,11 +42,18 @@ class CarController():
     steer_alert = visual_alert == car.CarControl.HUDControl.VisualAlert.steerRequired
     apply_steer = actuators.steerAngle
     if self.enable_camera:
-      if enabled:
-        self.speed = 0
-      if not enabled:
-        self.speed = CS.vehSpeed
-      can_sends.append(create_speed_command(self.packer, self.speed))
+      if (frame % 2) == 0:
+        if enabled:
+          self.speed = 0
+          self.speed2 = 0
+          self.speed3 = 0
+        if not enabled:
+          self.speed = CS.vehSpeed
+          self.speed2 = CS.vehSpeed2
+          self.speed3 = CS.vehSpeed3
+        can_sends.append(create_speed_command(self.packer, self.speed, CS.trlraid, CS.actlnocs, CS.actlnocnt, CS.actlqf, CS.epsgear))
+        can_sends.append(create_speed_command2(self.packer, self.speed2, CS.longcomp, CS.latcomp, CS.yawcomp))
+        can_sends.append(create_speed_command3(self.packer, self.speed3, CS.lsmcdecel, CS.actlbrknocs, CS.actlbrknocnt, CS.actlbrkqf))
       if pcm_cancel:
        #print("CANCELING!!!!")
         can_sends.append(spam_cancel_button(self.packer))
@@ -128,7 +135,7 @@ class CarController():
           self.steer_chime = 2
         else:
           self.steer_chime = 0
-        can_sends.append(create_lkas_ui(self.packer, CS.out.cruiseState.available, enabled, self.steer_chime, CS.ipmaHeater, CS.ahbcCommanded, CS.ahbcRamping, CS.ipmaConfig, CS.ipmaNo, CS.ipmaStats))
+        can_sends.append(create_lkas_ui(self.packer, CS.out.cruiseState.available, enabled, self.steer_chime, CS.ipmaHeater, CS.ahbcCommanded, CS.ahbcRamping, CS.ipmaConfig, CS.ipmaNo, CS.ipmaStats, CS.persipma, CS.dasdsply))
         self.enabled_last = enabled                         
       self.steer_alert_last = steer_alert
 
