@@ -108,7 +108,7 @@ class CarState(CarStateBase):
     ("Veh_V_ActlEng", "EngVehicleSpThrottle2", 0.),
     ]
     
-    #checks = []
+    checks = []
     return CANParser(DBC[CP.carFingerprint]['pt'], signals, checks, 0)
   
   @staticmethod
@@ -130,4 +130,6 @@ class CarState(CarStateBase):
     ("LaHandsOff_B_Actl", "Lane_Keep_Assist_Status", 0),
     ("LaActDeny_B_Actl", "Lane_Keep_Assist_Status", 0),
     ]
+
+    checks = [] 
     return CANParser(DBC[CP.carFingerprint]['pt'], signals, checks, 2)
