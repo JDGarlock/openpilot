@@ -2,7 +2,7 @@ from cereal import car
 import numpy as np
 from common.numpy_fast import interp, clip
 from selfdrive.car import make_can_msg
-from selfdrive.car.ford.fordcan import create_steer_command, create_speed_command, create_lkas_ui, spam_cancel_button
+from selfdrive.car.ford.fordcan import create_steer_command, create_speed_command, create_speed_command2, create_speed_command3, create_lkas_ui, spam_cancel_button
 from opendbc.can.packer import CANPacker
 
 
