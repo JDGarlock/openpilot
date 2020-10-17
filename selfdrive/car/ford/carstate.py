@@ -40,8 +40,9 @@ class CarState(CarStateBase):
                         cp.vl["Doors"]['Door_RL_Open'], cp.vl["Doors"]['Door_RR_Open']]) 
     ret.steeringTorque = cp.vl["EPAS_INFO"]['SteeringColumnTorque']
     ret.seatbeltUnlatched = cp.vl["RCMStatusMessage2_FD1"]['FirstRowBuckleDriver'] == 2
+    self.cruise_mode = cp.vl["ACCDATA_3"]['AccMemEnbl_B_RqDrv']
     ret.stockFcw = cp.vl["ACCDATA_3"]['FcwVisblWarn_B_Rq'] !=0
-    ret.stockAeb = cp.vl["ACCDATA_3"]['AccMemEnbl_B_RqDrv'] !=0 and ret.cruiseState.enabled and ret.stockFcw
+    ret.stockAeb = self.cruise_mode !=0 and ret.cruiseState.enabled and ret.stockFcw
     #print ("Curvature:", self.laneCurvature, "lkas_state:", self.lkas_state, "steer_override:", ret.steeringPressed) #debug to check lockout state. 
     #Gear Shifter
     gear = cp.vl["TransGearData"]['GearLvrPos_D_Actl']
