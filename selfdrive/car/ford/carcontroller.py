@@ -35,6 +35,7 @@ class CarController():
     self.apaCounter = 0
     self.sappAction = 0
     self.eightysix = 0
+    self.cs_cnt_cntr = 1
 
   def update(self, enabled, CS, frame, actuators, visual_alert, pcm_cancel):
 
@@ -44,16 +45,43 @@ class CarController():
     if self.enable_camera:
       if (frame % 2) == 0:
         if enabled:
-          self.speed = 0
-          self.speed2 = 0
-          self.speed3 = 0
+          #The one and only counter in ford. I'm too lazy to calculate this since it is gonna be used with 0 speed
+          if self.cs_cnt_cntr == 1:
+            can_sends.append([0x202, 2, b"\x04\xfb\x08\x00\x60\x6e\x00\x00"])
+            self.cs_cnt_cntr += 1
+          if self.cs_cnt_cntr == 2:
+            can_sends.append([0x202, 2, b"\x04\xf9\x18\x00\x60\x6e\x00\x00"])
+            self.cs_cnt_cntr += 1  
+          if self.cs_cnt_cntr == 3:
+            can_sends.append([0x202, 2, b"\x04\xf7\x28\x00\x60\x6e\x00\x00"])
+            self.cs_cnt_cntr += 1
+          if self.cs_cnt_cntr == 4:
+            can_sends.append([0x202, 2, b"\x04\xf5\x38\x00\x60\x6e\x00\x00"])
+            self.cs_cnt_cntr += 1         
+          if self.cs_cnt_cntr == 5:
+            can_sends.append([0x202, 2, b"\x04\xf3\x48\x00\x60\x6e\x00\x00"])
+            self.cs_cnt_cntr += 1  
+          if self.cs_cnt_cntr == 6:
+            can_sends.append([0x202, 2, b"\x04\xf1\x58\x00\x60\x6e\x00\x00"])
+            self.cs_cnt_cntr += 1 
+          if self.cs_cnt_cntr == 7:
+            can_sends.append([0x202, 2, b"\x04\xef\x68\x00\x60\x6e\x00\x00"])
+            self.cs_cnt_cntr += 1
+          if self.cs_cnt_cntr == 8:
+            can_sends.append([0x202, 2, b"\x04\xed\x78\x00\x60\x6e\x00\x00"])
+            self.cs_cnt_cntr += 1
+          if self.cs_cnt_cntr == 9:
+            self.cs.cnt.cntr = 1
+          #self.speed = 0
+          #self.speed2 = 0
+          #self.speed3 = 0
         if not enabled:
           self.speed = CS.vehSpeed
-          self.speed2 = CS.vehSpeed2
-          self.speed3 = CS.vehSpeed3
-        can_sends.append(create_speed_command(self.packer, self.speed, CS.trlraid, CS.actlnocs, CS.actlnocnt, CS.actlqf, CS.epsgear))
-        can_sends.append(create_speed_command2(self.packer, self.speed2, CS.longcomp, CS.latcomp, CS.yawcomp))
-        can_sends.append(create_speed_command3(self.packer, self.speed3, CS.lsmcdecel, CS.actlbrknocs, CS.actlbrknocnt, CS.actlbrkqf))
+          #self.speed2 = CS.vehSpeed2
+          #self.speed3 = CS.vehSpeed3
+          can_sends.append(create_speed_command(self.packer, self.speed, CS.trlraid, CS.actlnocs, CS.actlnocnt, CS.actlqf, CS.epsgear))
+        #can_sends.append(create_speed_command2(self.packer, self.speed2, CS.longcomp, CS.latcomp, CS.yawcomp))
+        #can_sends.append(create_speed_command3(self.packer, self.speed3, CS.lsmcdecel, CS.actlbrknocs, CS.actlbrknocnt, CS.actlbrkqf))
       if pcm_cancel:
        #print("CANCELING!!!!")
         can_sends.append(spam_cancel_button(self.packer))
