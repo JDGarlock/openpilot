@@ -47,28 +47,28 @@ class CarController():
         if enabled:
           #The one and only counter in ford. I'm too lazy to calculate this since it is gonna be used with 0 speed
           if self.cs_cnt_cntr == 0:
-            can_sends.append([0x202, 2, b"\x04\xfb\x08\x00\x60\x6e\x00\x00"])
+            can_sends.append(make_can_msg(0x202, b'\x04\xfb\x08\x00\x60\x6e\x00\x00', 2))
             self.cs_cnt_cntr += 1
           if self.cs_cnt_cntr == 1:
-            can_sends.append([0x202, 2, b"\x04\xf9\x18\x00\x60\x6e\x00\x00"])
+            can_sends.append(make_can_msg(0x202, b'\x04\xf9\x18\x00\x60\x6e\x00\x00', 2))
             self.cs_cnt_cntr += 1  
           if self.cs_cnt_cntr == 2:
-            can_sends.append([0x202, 2, b"\x04\xf7\x28\x00\x60\x6e\x00\x00"])
+            can_sends.append(make_can_msg(0x202, b'\x04\xf7\x28\x00\x60\x6e\x00\x00', 2))
             self.cs_cnt_cntr += 1
           if self.cs_cnt_cntr == 3:
-            can_sends.append([0x202, 2, b"\x04\xf5\x38\x00\x60\x6e\x00\x00"])
+            can_sends.append(make_can_msg(0x202, b'\x04\xf5\x38\x00\x60\x6e\x00\x00', 2))
             self.cs_cnt_cntr += 1         
           if self.cs_cnt_cntr == 4:
-            can_sends.append([0x202, 2, b"\x04\xf3\x48\x00\x60\x6e\x00\x00"])
+            can_sends.append(make_can_msg(0x202, b'\x04\xf3\x48\x00\x60\x6e\x00\x00', 2))
             self.cs_cnt_cntr += 1  
           if self.cs_cnt_cntr == 5:
-            can_sends.append([0x202, 2, b"\x04\xf1\x58\x00\x60\x6e\x00\x00"])
+            can_sends.append(make_can_msg(0x202, b'\x04\xf1\x58\x00\x60\x6e\x00\x00', 2))
             self.cs_cnt_cntr += 1 
           if self.cs_cnt_cntr == 6:
-            can_sends.append([0x202, 2, b"\x04\xef\x68\x00\x60\x6e\x00\x00"])
+            can_sends.append(make_can_msg(0x202, b'\x04\xef\x68\x00\x60\x6e\x00\x00', 2))
             self.cs_cnt_cntr += 1
           if self.cs_cnt_cntr == 7:
-            can_sends.append([0x202, 2, b"\x04\xed\x78\x00\x60\x6e\x00\x00"])
+            can_sends.append(make_can_msg(0x202, b'\x04\xed\x78\x00\x60\x6e\x00\x00', 2))
             self.cs_cnt_cntr += 1
           if self.cs_cnt_cntr == 8:
             self.cs_cnt_cntr = 0
