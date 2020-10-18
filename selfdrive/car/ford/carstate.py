@@ -160,9 +160,9 @@ class CarState(CarStateBase):
       ("CamraDefog_B_Req", "Lane_Keep_Assist_Ui", 0.),
       ("AhbcRampingV_D_Rq", "Lane_Keep_Assist_Ui", 0.),
       ("LatCtlLim_D_Stat", "Lane_Keep_Assist_Status", 0.),
-      ("LaActAvail_D_Actl", "Lane_Keep_Assist_Status", 0),
-      ("LaHandsOff_B_Actl", "Lane_Keep_Assist_Status", 0),
-      ("LaActDeny_B_Actl", "Lane_Keep_Assist_Status", 0),
+      ("LaActAvail_D_Actl", "Lane_Keep_Assist_Status", 0.),
+      ("LaHandsOff_B_Actl", "Lane_Keep_Assist_Status", 0.),
+      ("LaActDeny_B_Actl", "Lane_Keep_Assist_Status", 0.),
       ("PersIndexIpma_D_Actl", "Lane_Keep_Assist_Ui", 0.),
       ("DasStats_D_Dsply", "Lane_Keep_Assist_Ui", 0.),
     ]
