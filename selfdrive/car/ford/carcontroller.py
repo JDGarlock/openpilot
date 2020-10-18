@@ -71,7 +71,7 @@ class CarController():
             can_sends.append([0x202, 2, b"\x04\xed\x78\x00\x60\x6e\x00\x00"])
             self.cs_cnt_cntr += 1
           if self.cs_cnt_cntr == 9:
-            self.cs.cnt.cntr = 1
+            self.cs_cnt_cntr = 1
           #self.speed = 0
           #self.speed2 = 0
           #self.speed3 = 0
@@ -82,6 +82,7 @@ class CarController():
           can_sends.append(create_speed_command(self.packer, self.speed, CS.trlraid, CS.actlnocs, CS.actlnocnt, CS.actlqf, CS.epsgear))
         #can_sends.append(create_speed_command2(self.packer, self.speed2, CS.longcomp, CS.latcomp, CS.yawcomp))
         #can_sends.append(create_speed_command3(self.packer, self.speed3, CS.lsmcdecel, CS.actlbrknocs, CS.actlbrknocnt, CS.actlbrkqf))
+        print("cs_cnt_cntr:", self.cs_cnt_cntr)
       if pcm_cancel:
        #print("CANCELING!!!!")
         can_sends.append(spam_cancel_button(self.packer))
@@ -136,7 +137,7 @@ class CarController():
         self.sappConfig_last = self.sappConfig
         self.angleReq_last = self.angleReq
         print("Handshake:", CS.sappHandshake, "Config:", self.sappConfig_last, "Counter:", self.apaCounter, "AngleRequest:", self.angleReq, "fwdAction:", self.sappAction)
-        print("514 Speed:", self.speed, "119 Speed:", self.speed2, "1045 Speed:", self.speed3)
+        #print("514 Speed:", self.speed, "119 Speed:", self.speed2, "1045 Speed:", self.speed3)
       #Stock IPMA Message is 33Hz. PSCM accepts commands at max 44Hz. 
         curvature = self.vehicle_model.calc_curvature(actuators.steerAngle*np.pi/180., CS.out.vEgo)
         self.lkas_action = 0 #6 Finished 5 NotAccessible 4 ApaCancelled 2 On 1 Off  
