@@ -36,6 +36,7 @@ class CarController():
     self.sappAction = 0
     self.eightysix = 0
     self.cs_cnt_cntr = 0
+    self.alwaysTrue = True
 
   def update(self, enabled, CS, frame, actuators, visual_alert, pcm_cancel):
 
@@ -44,7 +45,7 @@ class CarController():
     apply_steer = actuators.steerAngle
     if self.enable_camera:
       if (frame % 2) == 0:
-        if enabled:
+        if self.alwaysTrue == True:
           #The one and only counter in ford. I'm too lazy to calculate this since it is gonna be used with 0 speed
           if self.cs_cnt_cntr == 0:
             can_sends.append(make_can_msg(0x202, b'\x04\xfb\x08\x00\x60\x6e\x00\x00', 2))
@@ -75,11 +76,11 @@ class CarController():
           #self.speed = 0
           #self.speed2 = 0
           #self.speed3 = 0
-        if not enabled:
-          self.speed = CS.vehSpeed
+        #if not enabled:
+        #  self.speed = CS.vehSpeed
           #self.speed2 = CS.vehSpeed2
           #self.speed3 = CS.vehSpeed3
-          can_sends.append(create_speed_command(self.packer, self.speed, CS.trlraid, CS.actlnocs, CS.actlnocnt, CS.actlqf, CS.epsgear))
+        #  can_sends.append(create_speed_command(self.packer, self.speed, CS.trlraid, CS.actlnocs, CS.actlnocnt, CS.actlqf, CS.epsgear))
         #can_sends.append(create_speed_command2(self.packer, self.speed2, CS.longcomp, CS.latcomp, CS.yawcomp))
         #can_sends.append(create_speed_command3(self.packer, self.speed3, CS.lsmcdecel, CS.actlbrknocs, CS.actlbrknocnt, CS.actlbrkqf))
         print("cs_cnt_cntr:", self.cs_cnt_cntr)
