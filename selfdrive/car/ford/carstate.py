@@ -39,6 +39,7 @@ class CarState(CarStateBase):
     ret.doorOpen = any([cp.vl["Doors"]['Door_FL_Open'],cp.vl["Doors"]['Door_FR_Open'],
                         cp.vl["Doors"]['Door_RL_Open'], cp.vl["Doors"]['Door_RR_Open']]) 
     ret.steeringTorque = cp_cam.vl["EPAS_INFO"]['SteeringColumnTorque']
+    self.epsAssistLimited = cp_cam.vl["EPAS_INFO"]['SteMdule_D_Stat'] == 1
     ret.seatbeltUnlatched = cp.vl["RCMStatusMessage2_FD1"]['FirstRowBuckleDriver'] == 2
     self.cruise_mode = cp.vl["ACCDATA_3"]['AccMemEnbl_B_RqDrv']
     ret.stockFcw = cp.vl["ACCDATA_3"]['FcwVisblWarn_B_Rq'] !=0
@@ -151,6 +152,7 @@ class CarState(CarStateBase):
     # sig_name, sig_address, default
       ("SAPPAngleControlStat1", "EPAS_INFO", 0.),
       ("SteeringColumnTorque", "EPAS_INFO", 0.),
+      ("SteMdule_D_Stat", "EPAS_INFO", 0.),
       ("FeatConfigIpmaActl", "Lane_Keep_Assist_Ui", 0.),
       ("FeatNoIpmaActl", "Lane_Keep_Assist_Ui", 0.),
       ("LaDenyStats_B_Dsply", "Lane_Keep_Assist_Ui", 0.),
