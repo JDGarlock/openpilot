@@ -44,6 +44,8 @@ class CarController():
     steer_alert = visual_alert == car.CarControl.HUDControl.VisualAlert.steerRequired
     apply_steer = actuators.steerAngle
     if self.enable_camera:
+      if CS.epsAssistLimited:
+        print("PSCM Assist Limited")
       if (frame % 2) == 0:
         if self.alwaysTrue == True:
           #The one and only counter in ford. I'm too lazy to calculate this since it is gonna be used with 0 speed
