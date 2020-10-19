@@ -86,13 +86,14 @@ class CarInterface(CarInterfaceBase):
        
     # events
     events = self.create_common_events(ret)
-    
-    if self.CS.sappHandshake != 2 and self.CC.sappConfig_last != 16:
-      events.add(car.CarEvent.EventName.pscmHandshaking)
-    if self.CS.sappHandshake == 2 and self.CC.sappAction >= 3 and self.CC.sappConfig_last == 224:
-      events.add(car.CarEvent.EventName.pscmHandshaked)
-    if self.CS.sappHandshake == 3 and self.CC.sappConfig_last in [16, 224]:
-      events.add(car.CarEvent.EventName.pscmLostHandshake)
+      
+    if enabled:
+      if self.CS.sappHandshake != 2 and self.CC.sappConfig_last != 16:
+        events.add(car.CarEvent.EventName.pscmHandshaking)
+      if self.CS.sappHandshake == 2 and self.CC.sappAction >= 3 and self.CC.sappConfig_last == 224:
+        events.add(car.CarEvent.EventName.pscmHandshaked)
+      if self.CS.sappHandshake == 3 and self.CC.sappConfig_last in [16, 224]:
+        events.add(car.CarEvent.EventName.pscmLostHandshake)
     ret.events = events.to_msg()
 
     self.CS.out = ret.as_reader()
