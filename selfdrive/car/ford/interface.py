@@ -87,7 +87,7 @@ class CarInterface(CarInterfaceBase):
     # events
     events = self.create_common_events(ret)
       
-    if self.CC.enabled:
+    if self.CC.enabled_last:
       if self.CS.sappHandshake != 2 and self.CC.sappConfig_last != 16:
         events.add(car.CarEvent.EventName.pscmHandshaking)
       if self.CS.sappHandshake == 2 and self.CC.sappAction >= 3 and self.CC.sappConfig_last == 224:
