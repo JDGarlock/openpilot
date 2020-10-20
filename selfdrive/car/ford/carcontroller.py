@@ -37,43 +37,45 @@ class CarController():
     self.eightysix = 0
     self.cs_cnt_cntr = 0
     self.alwaysTrue = True
+    self.cs_cnt_cntr_last = 0
 
   def update(self, enabled, CS, frame, actuators, visual_alert, pcm_cancel):
 
     can_sends = []
     steer_alert = visual_alert == car.CarControl.HUDControl.VisualAlert.steerRequired
     apply_steer = actuators.steerAngle
+    self.cs_cnt_cntr_last = self.cs_cnt_cntr_last
     if self.enable_camera:
       if CS.epsAssistLimited:
         print("PSCM Assist Limited")
       if (frame % 2) == 0:
         if self.alwaysTrue == True:
           #The one and only counter in ford. I'm too lazy to calculate this since it is gonna be used with 0 speed
-          if self.cs_cnt_cntr == 0:
+          if self.cs_cnt_cntr_last == 0:
             can_sends.append(make_can_msg(0x202, b'\x04\xfb\x08\x00\x60\x6e\x00\x00', 2))
             self.cs_cnt_cntr += 1
-          if self.cs_cnt_cntr == 1:
+          if self.cs_cnt_cntr_last == 1:
             can_sends.append(make_can_msg(0x202, b'\x04\xf9\x18\x00\x60\x6e\x00\x00', 2))
             self.cs_cnt_cntr += 1  
-          if self.cs_cnt_cntr == 2:
+          if self.cs_cnt_cntr_last == 2:
             can_sends.append(make_can_msg(0x202, b'\x04\xf7\x28\x00\x60\x6e\x00\x00', 2))
             self.cs_cnt_cntr += 1
-          if self.cs_cnt_cntr == 3:
+          if self.cs_cnt_cntr_last == 3:
             can_sends.append(make_can_msg(0x202, b'\x04\xf5\x38\x00\x60\x6e\x00\x00', 2))
             self.cs_cnt_cntr += 1         
-          if self.cs_cnt_cntr == 4:
+          if self.cs_cnt_cntr_last == 4:
             can_sends.append(make_can_msg(0x202, b'\x04\xf3\x48\x00\x60\x6e\x00\x00', 2))
             self.cs_cnt_cntr += 1  
-          if self.cs_cnt_cntr == 5:
+          if self.cs_cnt_cntr_last == 5:
             can_sends.append(make_can_msg(0x202, b'\x04\xf1\x58\x00\x60\x6e\x00\x00', 2))
             self.cs_cnt_cntr += 1 
-          if self.cs_cnt_cntr == 6:
+          if self.cs_cnt_cntr_last == 6:
             can_sends.append(make_can_msg(0x202, b'\x04\xef\x68\x00\x60\x6e\x00\x00', 2))
             self.cs_cnt_cntr += 1
-          if self.cs_cnt_cntr == 7:
+          if self.cs_cnt_cntr_last == 7:
             can_sends.append(make_can_msg(0x202, b'\x04\xed\x78\x00\x60\x6e\x00\x00', 2))
             self.cs_cnt_cntr += 1
-          if self.cs_cnt_cntr == 8:
+          if self.cs_cnt_cntr_last == 8:
             self.cs_cnt_cntr = 0
           #self.speed = 0
           #self.speed2 = 0
