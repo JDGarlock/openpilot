@@ -38,19 +38,22 @@ class CarController():
     self.cs514_cnt_cntr = 0
     self.alwaysTrue = True
     self.cs514_cnt_cntr_last = 0
-
+    self.cs1045_cnt_cntr = 0
+    self.cs1045_cnt_cntr_last = 0
   def update(self, enabled, CS, frame, actuators, visual_alert, pcm_cancel):
 
     can_sends = []
     steer_alert = visual_alert == car.CarControl.HUDControl.VisualAlert.steerRequired
     apply_steer = actuators.steerAngle
     self.cs514_cnt_cntr_last = self.cs514_cnt_cntr
+    self.cs1045_cnt_cntr_last = self.cs1045_cnt_cntr
     if self.enable_camera:
       if CS.epsAssistLimited:
         print("PSCM Assist Limited")
       if (frame % 2) == 0:
         if self.alwaysTrue == True:
-          #The one and only counter in ford. I'm too lazy to calculate this since it is gonna be used with 0 speed
+          #I'm too lazy to calculate this counter since it is gonna be used with 0 speed
+          #514 Counter/Checksum/Speed
           if self.cs514_cnt_cntr_last == 0:
             can_sends.append(make_can_msg(0x202, b'\x04\xfb\x08\x00\x60\x6e\x00\x00', 2))
             self.cs514_cnt_cntr += 1
@@ -77,6 +80,57 @@ class CarController():
             self.cs514_cnt_cntr += 1
           if self.cs514_cnt_cntr_last == 8:
             self.cs514_cnt_cntr = 0
+          #1045 Counter/Checksum/Speed
+          if self.cs1045_cnt_cntr_last == 0:
+            can_sends.append(make_can_msg(0x415, b'\x00\x00\xc0\xfc\x80\x00\x00\x00', 2))
+            self.cs1045_cnt_cntr += 1
+          if self.cs1045_cnt_cntr_last == 1:
+            can_sends.append(make_can_msg(0x415, b'\x00\x00\xc4\xfb\x80\x00\x00\x00', 2))
+            self.cs1045_cnt_cntr += 1  
+          if self.cs1045_cnt_cntr_last == 2:
+            can_sends.append(make_can_msg(0x415, b'\x00\x00\xc8\xfa\x80\x00\x00\x00', 2))
+            self.cs1045_cnt_cntr += 1
+          if self.cs1045_cnt_cntr_last == 3:
+            can_sends.append(make_can_msg(0x415, b'\x00\x00\xcc\xf9\x80\x00\x00\x00', 2))
+            self.cs1045_cnt_cntr += 1         
+          if self.cs1045_cnt_cntr_last == 4:
+            can_sends.append(make_can_msg(0x415, b'\x00\x00\xd0\xf8\x80\x00\x00\x00', 2))
+            self.cs1045_cnt_cntr += 1  
+          if self.cs1045_cnt_cntr_last == 5:
+            can_sends.append(make_can_msg(0x415, b'\x00\x00\xd4\xf7\x80\x00\x00\x00', 2))
+            self.cs1045_cnt_cntr += 1 
+          if self.cs1045_cnt_cntr_last == 6:
+            can_sends.append(make_can_msg(0x415, b'\x00\x00\xd8\xf6\x80\x00\x00\x00', 2))
+            self.cs1045_cnt_cntr += 1
+          if self.cs1045_cnt_cntr_last == 7:
+            can_sends.append(make_can_msg(0x415, b'\x00\x00\xdc\xf5\x80\x00\x00\x00', 2))
+            self.cs1045_cnt_cntr += 1
+          if self.cs1045_cnt_cntr_last == 8:
+            can_sends.append(make_can_msg(0x415, b'\x00\x00\xe0\xf4\x80\x00\x00\x00', 2))
+            self.cs1045_cnt_cntr += 1
+          if self.cs1045_cnt_cntr_last == 9:
+            can_sends.append(make_can_msg(0x415, b'\x00\x00\xe4\xf3\x80\x00\x00\x00', 2))
+            self.cs1045_cnt_cntr += 1  
+          if self.cs1045_cnt_cntr_last == 10:
+            can_sends.append(make_can_msg(0x415, b'\x00\x00\xe8\xf2\x80\x00\x00\x00', 2))
+            self.cs1045_cnt_cntr += 1
+          if self.cs1045_cnt_cntr_last == 11:
+            can_sends.append(make_can_msg(0x415, b'\x00\x00\xec\xf1\x80\x00\x00\x00', 2))
+            self.cs1045_cnt_cntr += 1         
+          if self.cs1045_cnt_cntr_last == 12:
+            can_sends.append(make_can_msg(0x415, b'\x00\x00\xf0\xf0\x80\x00\x00\x00', 2))
+            self.cs1045_cnt_cntr += 1  
+          if self.cs1045_cnt_cntr_last == 13:
+            can_sends.append(make_can_msg(0x415, b'\x00\x00\xf4\xef\x80\x00\x00\x00', 2))
+            self.cs1045_cnt_cntr += 1 
+          if self.cs1045_cnt_cntr_last == 14:
+            can_sends.append(make_can_msg(0x415, b'\x00\x00\xf8\xee\x80\x00\x00\x00', 2))
+            self.cs1045_cnt_cntr += 1
+          if self.cs1045_cnt_cntr_last == 15:
+            can_sends.append(make_can_msg(0x415, b'\x00\x00\xfc\xed\x80\x00\x00\x00', 2))
+            self.cs1045_cnt_cntr += 1
+          if self.cs1045_cnt_cntr_last == 16:
+            self.cs1045_cnt_cntr = 0
           #self.speed = 0
           #self.speed2 = 0
           #self.speed3 = 0
@@ -87,7 +141,7 @@ class CarController():
         #  can_sends.append(create_speed_command(self.packer, self.speed, CS.trlraid, CS.actlnocs, CS.actlnocnt, CS.actlqf, CS.epsgear))
         #can_sends.append(create_speed_command2(self.packer, self.speed2, CS.longcomp, CS.latcomp, CS.yawcomp))
         #can_sends.append(create_speed_command3(self.packer, self.speed3, CS.lsmcdecel, CS.actlbrknocs, CS.actlbrknocnt, CS.actlbrkqf))
-        print("cs_cnt_cntr:", self.cs514_cnt_cntr)
+        print("cs514_cnt_cntr:", self.cs514_cnt_cntr, "cs1045_cnt_cntr:", self.cs1045_cnt_cntr)
       if pcm_cancel:
        #print("CANCELING!!!!")
         can_sends.append(spam_cancel_button(self.packer))
