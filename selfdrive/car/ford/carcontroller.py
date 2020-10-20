@@ -2,7 +2,7 @@ from cereal import car
 import numpy as np
 from common.numpy_fast import interp, clip
 from selfdrive.car import make_can_msg
-from selfdrive.car.ford.fordcan import create_steer_command, create_speed_command, create_speed_command2, create_speed_command3, create_lkas_ui, spam_cancel_button
+from selfdrive.car.ford.fordcan import create_steer_command, create_speed_command, create_speed_command2, create_lkas_ui, spam_cancel_button
 from opendbc.can.packer import CANPacker
 
 
@@ -52,6 +52,11 @@ class CarController():
         print("PSCM Assist Limited")
       if (frame % 2) == 0:
         if self.alwaysTrue == True:
+          self.speedfl = 0
+          self.speedfr = 0
+          self.speedrl = 0
+          self.speedrr = 0
+          can_sends.append(create_speed_command(self.packer, self.speedfl, self.speedfr, self.speedrl, self.speedrr))
           #I'm too lazy to calculate this counter since it is gonna be used with 0 speed
           #514 Counter/Checksum/Speed
           #if self.cs514_cnt_cntr_last == 0:
@@ -154,7 +159,7 @@ class CarController():
         #  self.speed = CS.vehSpeed
           #self.speed2 = CS.vehSpeed2
           #self.speed3 = CS.vehSpeed3
-        #  can_sends.append(create_speed_command(self.packer, self.speed, CS.trlraid, CS.actlnocs, CS.actlnocnt, CS.actlqf, CS.epsgear))
+        #  can_sends.append(create_speed_command self.speed, CS.trlraid, CS.actlnocs, CS.actlnocnt, CS.actlqf, CS.epsgear))
         #can_sends.append(create_speed_command2(self.packer, self.speed2, CS.longcomp, CS.latcomp, CS.yawcomp))
         #can_sends.append(create_speed_command3(self.packer, self.speed3, CS.lsmcdecel, CS.actlbrknocs, CS.actlbrknocnt, CS.actlbrkqf))
         print("cs1045_cnt_cntr:", self.cs1045_cnt_cntr) #"cs514_cnt_cntr:", self.cs514_cnt_cntr, 
