@@ -56,7 +56,9 @@ class CarController():
           self.speedfr = 0
           self.speedrl = 0
           self.speedrr = 0
+          self.speed2 = 0
           can_sends.append(create_speed_command(self.packer, self.speedfl, self.speedfr, self.speedrl, self.speedrr))
+          can_sends.append(create_speed_command2(self.packer, self.speed2, CS.longcomp, CS.latcomp, CS.yawcomp))
           #I'm too lazy to calculate this counter since it is gonna be used with 0 speed
           #514 Counter/Checksum/Speed
           #if self.cs514_cnt_cntr_last == 0:
