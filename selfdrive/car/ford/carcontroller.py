@@ -52,13 +52,10 @@ class CarController():
         print("PSCM Assist Limited")
       if (frame % 2) == 0:
         if self.alwaysTrue == True:
-          self.speedfl = 0
-          self.speedfr = 0
-          self.speedrl = 0
-          self.speedrr = 0
-          self.speed2 = 0
-          can_sends.append(create_speed_command(self.packer, self.speedfl, self.speedfr, self.speedrl, self.speedrr))
-          can_sends.append(create_speed_command2(self.packer, self.speed2, CS.longcomp, CS.latcomp, CS.yawcomp))
+          #  can_sends.append(create_speed_command(self.packer, CS.vehSpeed, CS.trlraid, CS.actlnocs, CS.actlnocnt, CS.actlqf, CS.epsgear))
+          #can_sends.append(create_speed_command2(self.packer, CS.vehSpeed2, CS.lsmcdecel, CS.actlbrknocs, CS.actlbrknocnt, CS.actlbrkqf))
+          self.drvstate = 6
+          can_sends.append(create_ds_118(self.packer,  CS.filler1, CS.filler2, CS.filler3, CS.brakectr, CS.awdlckmax, CS.awdlckmn, self.drvstate, CS.drvtq, CS.emergbrk, CS.stoplmp, CS.angle))
           #I'm too lazy to calculate this counter since it is gonna be used with 0 speed
           #514 Counter/Checksum/Speed
           #if self.cs514_cnt_cntr_last == 0:
