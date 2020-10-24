@@ -55,7 +55,7 @@ class CarController():
           #  can_sends.append(create_speed_command(self.packer, CS.vehSpeed, CS.trlraid, CS.actlnocs, CS.actlnocnt, CS.actlqf, CS.epsgear))
           #can_sends.append(create_speed_command2(self.packer, CS.vehSpeed2, CS.lsmcdecel, CS.actlbrknocs, CS.actlbrknocnt, CS.actlbrkqf))
           self.drvstate = 6
-          can_sends.append(create_ds_118(self.packer,  CS.filler1, CS.filler2, CS.filler3, CS.brakectr, CS.awdlckmax, CS.awdlckmn, self.drvstate, CS.drvtq, CS.emergbrk, CS.stoplmp, CS.angle))
+          can_sends.append(create_ds_118(self.packer,  CS.filler1, CS.filler2, CS.filler3, CS.brakectr, CS.awdlckmax, CS.awdlckmn, self.drvstate, CS.drvtq, CS.emergbrk, CS.stoplmp, CS.out.steeringAngle))
           #I'm too lazy to calculate this counter since it is gonna be used with 0 speed
           #514 Counter/Checksum/Speed
           #if self.cs514_cnt_cntr_last == 0:
