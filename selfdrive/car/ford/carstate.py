@@ -78,21 +78,27 @@ class CarState(CarStateBase):
     self.angleStat = cp.vl["ParkAid_Data"]['EPASExtAngleStatReq']
     #Speed
     self.vehSpeed = cp.vl["EngVehicleSpThrottle2"]['Veh_V_ActlEng']
-    self.vehSpeed2 = cp.vl["BrakeSnData_3"]['VehOverGnd_V_Est']
-    self.vehSpeed3 = cp.vl["BrakeSysFeatures"]['Veh_V_ActlBrk']
+    self.vehSpeed2 = cp.vl["BrakeSysFeatures"]['Veh_V_ActlBrk']
     #PSCM Happy Stuff
     self.trlraid = cp.vl["EngVehicleSpThrottle2"]['VehVTrlrAid_B_Avail']
     self.actlnocs = cp.vl["EngVehicleSpThrottle2"]['VehVActlEng_No_Cs']
     self.actlnocnt = cp.vl["EngVehicleSpThrottle2"]['VehVActlEng_No_Cnt']
     self.actlqf = cp.vl["EngVehicleSpThrottle2"]['VehVActlEng_D_Qf']
     self.epsgear = cp.vl["EngVehicleSpThrottle2"]['GearRvrse_D_Actl']
-    self.longcomp = cp.vl["BrakeSnData_3"]['VehLongComp_A_Actl']
-    self.latcomp = cp.vl["BrakeSnData_3"]['VehLatComp_A_Actl']
-    self.yawcomp = cp.vl["BrakeSnData_3"]['VehYawComp_W_Actl']
     self.lsmcdecel = cp.vl["BrakeSysFeatures"]['LsmcBrkDecel_D_Stat']
     self.actlbrknocs = cp.vl["BrakeSysFeatures"]['VehVActlBrk_No_Cs']
     self.actlbrknocnt = cp.vl["BrakeSysFeatures"]['VehVActlBrk_No_Cnt']
     self.actlbrkqf = cp.vl["BrakeSysFeatures"]['VehVActlBrk_D_Qf']
+    self.brakectr = cp.vl["BrakeSnData_5"]['BrkCtrFnd_B_Stat']
+    self.awdlckmax = cp.vl["BrakeSnData_5"]['AwdLck_Tq_RqMx']
+    self.awdlckmn = cp.vl["BrakeSnData_5"]['AwdLck_Tq_RqMn']
+    self.drvstate = cp.vl["BrakeSnData_5"]['DrvSte_D_Stat']
+    self.drvtq = cp.vl["BrakeSnData_5"]['DrvSte_Tq_Rq']
+    self.emergbrk = cp.vl["BrakeSnData_5"]['EmgcyBrkLamp_D_Rq']
+    self.stoplmp = cp.vl["BrakeSnData_5"]['StopLamp_B_RqBrk']
+    self.filler1 = cp.vl["BrakeSnData_5"]['DS_Filler_1']
+    self.filler2 = cp.vl["BrakeSnData_5"]['DS_Filler_2']
+    self.filler3 = cp.vl["BrakeSnData_5"]['DS_Filler_3']
     return ret
 
   @staticmethod
@@ -133,10 +139,6 @@ class CarState(CarStateBase):
       ("VehVActlEng_D_Qf", "EngVehicleSpThrottle2", 0.),
       ("GearRvrse_D_Actl", "EngVehicleSpThrottle2", 0.),
       ("VehVActlEng_No_Cnt", "EngVehicleSpThrottle2", 0.),
-      ("VehOverGnd_V_Est", "BrakeSnData_3", 0.),
-      ("VehLongComp_A_Actl", "BrakeSnData_3", 0.),
-      ("VehLatComp_A_Actl", "BrakeSnData_3", 0.),
-      ("VehYawComp_W_Actl", "BrakeSnData_3", 0.),
       ("Veh_V_ActlBrk", "BrakeSysFeatures", 0.),
       ("LsmcBrkDecel_D_Stat", "BrakeSysFeatures", 0.),
       ("VehVActlBrk_No_Cs", "BrakeSysFeatures", 0.),
@@ -144,6 +146,16 @@ class CarState(CarStateBase):
       ("VehVActlBrk_D_Qf", "BrakeSysFeatures", 0.),
       ("AccMemEnbl_B_RqDrv", "ACCDATA_3", 0.),
       ("EngAout_N_Actl", "EngineData_14", 0.),
+      ("BrkCtrFnd_B_Stat", "BrakeSnData_5", 0.),
+      ("AwdLck_Tq_RqMx", "BrakeSnData_5", 0.),
+      ("AwdLck_Tq_RqMn", "BrakeSnData_5", 0.),
+      ("DrvSte_D_Stat", "BrakeSnData_5", 0.),
+      ("DrvSte_Tq_Rq", "BrakeSnData_5", 0.),
+      ("EmgcyBrkLamp_D_Rq", "BrakeSnData_5", 0.),
+      ("StopLamp_B_RqBrk", "BrakeSnData_5", 0.),
+      ("DS_Filler_1", "BrakeSnData_5", 0.),
+      ("DS_Filler_2", "BrakeSnData_5", 0.),
+      ("DS_Filler_3", "BrakeSnData_5", 0.),
     ]
     
     checks = []
