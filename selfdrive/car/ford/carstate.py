@@ -26,7 +26,7 @@ class CarState(CarStateBase):
     ret.cruiseState.available = cp.vl["Cruise_Status"]['Cruise_State'] != 0
     ret.gas = cp.vl["EngineData_14"]['ApedPosScal_Pc_Actl'] / 100.
     ret.gasPressed = ret.gas > 1e-6
-    ret.brakePressed = bool(cp.vl["Cruise_Status"]['Brake_Drv_Appl'])
+    ret.brakePressed = cp.vl["Cruise_Status"]['Brake_Drv_Appl'] == 2
     ret.brakeLights = bool(cp.vl["BCM_to_HS_Body"]['Brake_Lights'])
     ret.genericToggle = bool(cp.vl["Steering_Buttons"]['Dist_Incr'])
     self.latLimit = cp_cam.vl["Lane_Keep_Assist_Status"]['LatCtlLim_D_Stat']
@@ -44,6 +44,7 @@ class CarState(CarStateBase):
     self.cruise_mode = cp.vl["ACCDATA_3"]['AccMemEnbl_B_RqDrv']
     ret.stockFcw = cp.vl["ACCDATA_3"]['FcwVisblWarn_B_Rq'] !=0
     ret.stockAeb = self.cruise_mode !=0 and ret.cruiseState.enabled and ret.stockFcw
+    self.engineRPM = cp.vl["EngineData_14"]['EngAout_N_Actl']
     #print ("Curvature:", self.laneCurvature, "lkas_state:", self.lkas_state, "steer_override:", ret.steeringPressed) #debug to check lockout state. 
     #Gear Shifter
     gear = cp.vl["TransGearData"]['GearLvrPos_D_Actl']
@@ -70,6 +71,7 @@ class CarState(CarStateBase):
     self.ipmaStats = cp_cam.vl["Lane_Keep_Assist_Ui"]['CamraStats_D_Dsply']
     self.persipma = cp_cam.vl["Lane_Keep_Assist_Ui"]['PersIndexIpma_D_Actl']
     self.dasdsply = cp_cam.vl["Lane_Keep_Assist_Ui"]['DasStats_D_Dsply']
+    self.x30 = cp_cam.vl["Lane_Keep_Assist_Ui"]['Set_Me_X30']
     #APA Stuff
     self.sappHandshake = cp_cam.vl["EPAS_INFO"]['SAPPAngleControlStat1']
     self.sappConfig = cp.vl["ParkAid_Data"]['SAPPStatusCoding']
@@ -141,6 +143,7 @@ class CarState(CarStateBase):
       ("VehVActlBrk_No_Cnt", "BrakeSysFeatures", 0.),
       ("VehVActlBrk_D_Qf", "BrakeSysFeatures", 0.),
       ("AccMemEnbl_B_RqDrv", "ACCDATA_3", 0.),
+      ("EngAout_N_Actl", "EngineData_14", 0.),
     ]
     
     checks = []
@@ -167,6 +170,7 @@ class CarState(CarStateBase):
       ("LaActDeny_B_Actl", "Lane_Keep_Assist_Status", 0.),
       ("PersIndexIpma_D_Actl", "Lane_Keep_Assist_Ui", 0.),
       ("DasStats_D_Dsply", "Lane_Keep_Assist_Ui", 0.),
+      ("Set_Me_X30", "Lane_Keep_Assist_Ui", 0.),
     ]
 
     checks = [] 
