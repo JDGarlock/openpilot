@@ -22,27 +22,26 @@ def create_steer_command(packer, angle_cmd, enabled, angle_steers, lkas_action, 
     "ApaChime_D_Rq": sappChime,
   }
   return packer.make_can_msg("ParkAid_Data", 2, values)
-def create_speed_command(packer, wheelfl, wheelfr, wheelrl, wheelrr):
-  """Creates a CAN message for the Ford Speed Command."""
-  values = {
-    "WhlFl_W_Meas": wheelfl,
-    "WhlFr_W_Meas": wheelfr,
-    "WhlRl_W_Meas": wheelrl,
-    "WhlRr_W_Meas": wheelrr,
-  }
-  return packer.make_can_msg("WheelSpeed", 2, values)
 
-def create_speed_command2(packer, speed2, longcomp, latcomp, yawcomp):
-  """Creates a CAN message for the Ford Speed Command."""
-  values = {
-    "VehOverGnd_V_Est": speed2,
-    "VehLongComp_A_Actl": longcomp,
-    "VehLatComp_A_Actl": latcomp,
-    "VehYawComp_W_Actl": yawcomp,
-  }
-  return packer.make_can_msg("BrakeSnData_3", 2, values)
+def create_ds_118(packer, filler1, filler2, filler3, brakectr, awdlckmax, awdlckmn, drvstate, drvtq, emergbrk, stoplmp, angle):
+  """Creates a CAN message for the Ford 118 message."""
 
-def create_lkas_ui(packer, main_on, enabled, steer_alert, defog, ahbc, ahbcramping, config, noipma, stats, persipma, dasdsply):
+  values = {
+    "BrkCtrFnd_B_Stat"  brakectr,
+    "AwdLck_Tq_RqMx": awdlckmax,
+    "AwdLck_Tq_RqMn": awdlckmn,
+    "DrvSte_D_Stat": drvstate,
+    "DrvSte_Tq_Rq": drvtq,
+    "EmgcyBrkLamp_D_Rq": emergbrk,
+    "StopLamp_B_RqBrk": stoplmp,
+    "SteWhlRelInit_An_Sns": angle,
+    "DS_Filler_1": filler1,
+    "DS_Filler_2": filler2,
+    "DS_Filler_3": filler3,
+  }
+  return packer.make_can_msg("BrakeSnData_5", 0, values)
+
+def create_lkas_ui(packer, main_on, enabled, steer_alert, defog, ahbc, ahbcramping, config, noipma, stats, persipma, dasdsply, x30):
   """Creates a CAN message for the Ford Steer Ui."""
   if enabled:
     lines = 0x6
@@ -52,7 +51,7 @@ def create_lkas_ui(packer, main_on, enabled, steer_alert, defog, ahbc, ahbcrampi
   values = {
     "PersIndexIpma_D_Actl": persipma,
     "DasStats_D_Dsply": dasdsply,
-    "Set_Me_X30": 0x30,
+    "Set_Me_X30": x30,
     "Lines_Hud": lines,
     "Hands_Warning_W_Chime": steer_alert,
     "CamraDefog_B_Req": defog,
