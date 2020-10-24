@@ -86,18 +86,18 @@ class CarController():
           #  self.cs514_cnt_cntr = 0
           #1045 Counter/Checksum/Speed
           #first 4 messages are to keep the counters in sync
-          if self.cs514_cnt_cntr_last == 0:
+          if self.cs1045_cnt_cntr_last == 0:
             can_sends.append(make_can_msg(0x202, b'\x04\xfb\x08\x00\x60\x6e\x00\x00', 2))
-            self.cs514_cnt_cntr += 1
-          if self.cs514_cnt_cntr_last == 1:
+            self.cs1045_cnt_cntr += 1
+          if self.cs1045_cnt_cntr_last == 1:
             can_sends.append(make_can_msg(0x202, b'\x04\xf9\x18\x00\x60\x6e\x00\x00', 2))
-            self.cs514_cnt_cntr += 1  
-          if self.cs514_cnt_cntr_last == 2:
+            self.cs1045_cnt_cntr += 1  
+          if self.cs1045_cnt_cntr_last == 2:
             can_sends.append(make_can_msg(0x202, b'\x04\xf7\x28\x00\x60\x6e\x00\x00', 2))
-            self.cs514_cnt_cntr += 1
-          if self.cs514_cnt_cntr_last == 3:
+            self.cs1045_cnt_cntr += 1
+          if self.cs1045_cnt_cntr_last == 3:
             can_sends.append(make_can_msg(0x202, b'\x04\xf5\x38\x00\x60\x6e\x00\x00', 2))
-            self.cs514_cnt_cntr += 1   
+            self.cs1045_cnt_cntr += 1   
           if self.cs1045_cnt_cntr_last == 4:
             can_sends.append(make_can_msg(0x202, b'\x04\xf3\x48\x00\x60\x6e\x00\x00', 2))
             can_sends.append(make_can_msg(0x415, b'\x00\x00\xc0\xfc\x80\x00\x00\x00', 2))
