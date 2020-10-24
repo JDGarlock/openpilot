@@ -27,7 +27,7 @@ def create_ds_118(packer, filler1, filler2, filler3, brakectr, awdlckmax, awdlck
   """Creates a CAN message for the Ford 118 message."""
 
   values = {
-    "BrkCtrFnd_B_Stat"  brakectr,
+    "BrkCtrFnd_B_Stat":  brakectr,
     "AwdLck_Tq_RqMx": awdlckmax,
     "AwdLck_Tq_RqMn": awdlckmn,
     "DrvSte_D_Stat": drvstate,
