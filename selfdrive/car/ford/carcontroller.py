@@ -38,7 +38,7 @@ class CarController():
     self.cs514_cnt_cntr = 0
     self.alwaysTrue = True
     self.cs514_cnt_cntr_last = 0
-    self.cs1045_cnt_cntr = CS.actlbrknocnt
+    self.cs1045_cnt_cntr = 0
     self.cs1045_cnt_cntr_last = 0
   def update(self, enabled, CS, frame, actuators, visual_alert, pcm_cancel):
 
@@ -47,6 +47,7 @@ class CarController():
     apply_steer = actuators.steerAngle
     self.cs514_cnt_cntr_last = self.cs514_cnt_cntr
     self.cs1045_cnt_cntr_last = self.cs1045_cnt_cntr
+    self.cs1045_cnt_cntr = CS.actlbrknocnt
     if self.enable_camera:
       if CS.epsAssistLimited:
         print("PSCM Assist Limited")
