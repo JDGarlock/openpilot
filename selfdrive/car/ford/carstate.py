@@ -18,7 +18,7 @@ class CarState(CarStateBase):
     ret.vEgoRaw = ((ret.wheelSpeeds.fl + ret.wheelSpeeds.fr + ret.wheelSpeeds.rl + ret.wheelSpeeds.rr) / 4.) / speed_factor
     ret.vEgo, ret.aEgo = self.update_speed_kf(ret.vEgoRaw)
     ret.standstill = not ret.vEgoRaw > 0.001
-    ret.steeringAngle = cp_cam.vl["EPS_SAS"]['SAS']
+    ret.steeringAngle = cp.vl["ParkAid_Data"]['ExtSteeringAngleReq2'] #cp_cam.vl["EPS_SAS"]['SAS']
     ret.steeringPressed = cp_cam.vl["Lane_Keep_Assist_Status"]['LaHandsOff_B_Actl'] != 0
     ret.steerError = cp_cam.vl["Lane_Keep_Assist_Status"]['LaActDeny_B_Actl'] == 1
     ret.cruiseState.speed = cp.vl["Cruise_Status"]['Set_Speed'] * CV.MPH_TO_MS
@@ -157,6 +157,7 @@ class CarState(CarStateBase):
       ("DS_Filler_1", "BrakeSnData_5", 0.),
       ("DS_Filler_2", "BrakeSnData_5", 0.),
       ("DS_Filler_3", "BrakeSnData_5", 0.),
+      ("ExtSteeringAngleReq2", "ParkAid_Data", 0.),
     ]
     
     checks = []
