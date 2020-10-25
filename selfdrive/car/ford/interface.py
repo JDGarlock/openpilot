@@ -83,17 +83,18 @@ class CarInterface(CarInterfaceBase):
 
     #ret = car.CarState.new_message()               
     ret.canValid = self.cp.can_valid and self.cp_cam.can_valid
-       
+    ret.engineRPM = self.CS.engineRPM
+
     # events
     events = self.create_common_events(ret)
       
     if self.CC.enabled_last:
-      if self.CS.sappHandshake != 2 and self.CC.sappConfig_last != 16:
-        events.add(car.CarEvent.EventName.pscmHandshaking)
+      #if self.CS.sappHandshake != 2 and self.CC.sappConfig_last != 16:
+      #  events.add(car.CarEvent.EventName.pscmHandshaking)
       if self.CS.sappHandshake == 2 and self.CC.sappAction >= 3 and self.CC.sappConfig_last == 224:
         events.add(car.CarEvent.EventName.pscmHandshaked)
-      if self.CS.sappHandshake == 3 and self.CC.sappConfig_last in [16, 224]:
-        events.add(car.CarEvent.EventName.pscmLostHandshake)
+      #if self.CS.sappHandshake == 3 and self.CC.sappConfig_last in [16, 224]:
+      #  events.add(car.CarEvent.EventName.pscmLostHandshake)
     ret.events = events.to_msg()
 
     self.CS.out = ret.as_reader()
