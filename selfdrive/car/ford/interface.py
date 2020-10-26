@@ -27,7 +27,7 @@ class CarInterface(CarInterfaceBase):
       ret.steerRatio = 18.0
       ret.mass = 4770. * CV.LB_TO_KG + STD_CARGO_KG
       ret.lateralTuning.init('indi')
-      ret.lateralTuning.indi.innerLoopGain = 4.0
+      ret.lateralTuning.indi.innerLoopGain = 2.0
       ret.lateralTuning.indi.outerLoopGain = 3.0
       ret.lateralTuning.indi.timeConstant = 1.0
       ret.lateralTuning.indi.actuatorEffectiveness = 1.0
