@@ -233,7 +233,6 @@ class CarController():
         print("Handshake:", CS.sappHandshake, "Config:", self.sappConfig_last, "Counter:", self.apaCounter, "AngleRequest:", self.angleReq, "fwdAction:", self.sappAction)
         #print("514 Speed:", self.speed, "119 Speed:", self.speed2, "1045 Speed:", self.speed3)
       #Stock IPMA Message is 33Hz. PSCM accepts commands at max 44Hz. 
-        curvature = self.vehicle_model.calc_curvature(actuators.steerAngle*np.pi/180., CS.out.vEgo)
         self.lkas_action = 0 #6 Finished 5 NotAccessible 4 ApaCancelled 2 On 1 Off  
         if enabled:
           if self.lastAngle * apply_steer > 0.:
