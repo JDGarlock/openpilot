@@ -6,7 +6,7 @@ from selfdrive.car.ford.fordcan import create_steer_command, create_speed_comman
 from opendbc.can.packer import CANPacker
 
 
-MAX_STEER_DELTA = 1
+MAX_STEER_DELTA = 0.2
 TOGGLE_DEBUG = False
 COUNTER_MAX = 7
 
