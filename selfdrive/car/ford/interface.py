@@ -26,14 +26,12 @@ class CarInterface(CarInterfaceBase):
       ret.wheelbase = 2.85
       ret.steerRatio = 14.0
       ret.mass = 4500. * CV.LB_TO_KG + STD_CARGO_KG
-      # PID Tuning
-      ret.lateralTuning.pid.kiBP, ret.lateralTuning.pid.kpBP = [[0.], [0.]]
-      ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.05], [0.002]]
-      ret.lateralTuning.pid.kf = 0.0   # MAX Steer angle to normalize FF
-      ret.steerActuatorDelay = 0.1  # Default delay, not measured yet
-      ret.steerLimitTimer = 0.8
-      ret.steerRateCost = 1.0
-      ret.centerToFront = ret.wheelbase * 0.44
+      ret.lateralTuning.init('indi')
+      ret.lateralTuning.indi.innerLoopGain = 4.0
+      ret.lateralTuning.indi.outerLoopGain = 3.0
+      ret.lateralTuning.indi.timeConstant = 1.0
+      ret.lateralTuning.indi.actuatorEffectiveness = 1.0
+      ret.steerActuatorDelay = 0.1
       tire_stiffness_factor = 0.5328
     elif candidate in [CAR.FUSION, CAR.FUSIONSG, CAR.MONDEO]:
       ret.wheelbase = 2.85
