@@ -32,6 +32,9 @@ class CarInterface(CarInterfaceBase):
       ret.lateralTuning.indi.timeConstant = 1.0
       ret.lateralTuning.indi.actuatorEffectiveness = 1.0
       ret.steerActuatorDelay = 0.1
+      ret.steerLimitTimer = 0.8
+      ret.steerRateCost = 1.0
+      ret.centerToFront = ret.wheelbase * 0.44
       tire_stiffness_factor = 0.5328
     elif candidate in [CAR.FUSION, CAR.FUSIONSG, CAR.MONDEO]:
       ret.wheelbase = 2.85
