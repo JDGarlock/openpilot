@@ -23,9 +23,9 @@ class CarInterface(CarInterfaceBase):
     ret.dashcamOnly = False
     
     if candidate in [CAR.F150, CAR.F150SG]:
-      ret.wheelbase = 2.85
-      ret.steerRatio = 14.0
-      ret.mass = 4500. * CV.LB_TO_KG + STD_CARGO_KG
+      ret.wheelbase = 3.68
+      ret.steerRatio = 18.0
+      ret.mass = 4770. * CV.LB_TO_KG + STD_CARGO_KG
       ret.lateralTuning.init('indi')
       ret.lateralTuning.indi.innerLoopGain = 4.0
       ret.lateralTuning.indi.outerLoopGain = 3.0
