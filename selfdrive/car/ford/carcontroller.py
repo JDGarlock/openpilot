@@ -10,6 +10,9 @@ MAX_STEER_DELTA = 0.2
 TOGGLE_DEBUG = False
 COUNTER_MAX = 7
 
+ANGLE_MAX_BP = [0., 27., 36.]
+ANGLE_MAX_V = [410., 92., 36.]
+
 ANGLE_DELTA_BP = [0., 5., 15.]
 ANGLE_DELTA_V = [5., .8, .15]     #windup
 ANGLE_DELTA_VU = [5., 3.5, 0.4] #unwind
@@ -234,8 +237,10 @@ class CarController():
         #print("514 Speed:", self.speed, "119 Speed:", self.speed2, "1045 Speed:", self.speed3)
       #Stock IPMA Message is 33Hz. PSCM accepts commands at max 44Hz. 
         self.lkas_action = 0 #6 Finished 5 NotAccessible 4 ApaCancelled 2 On 1 Off  
+        angle_lim = interp(CS.out.vEgo, ANGLE_MAX_BP, ANGLE_MAX_V)
+        apply_steer = clip(apply_steer, -angle_lim, angle_lim)
         if enabled:
-          if self.lastAngle * apply_steer > 0.:
+          if self.lastAngle * apply_steer > 0. and abs(apply_steer) > abs(self.lastAngle):
             angle_rate_lim = interp(CS.out.vEgo, ANGLE_DELTA_BP, ANGLE_DELTA_V)
           else:
             angle_rate_lim = interp(CS.out.vEgo, ANGLE_DELTA_BP, ANGLE_DELTA_VU)
