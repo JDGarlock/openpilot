@@ -482,14 +482,10 @@ EVENTS = {
       "PSCM has successfully handshaked",
       "",
       AlertStatus.normal, AlertSize.small,
-      Priority.LOWEST, VisualAlert.none, AudibleAlert.none, .0, .0, .1),
+      Priority.LOW, VisualAlert.none, AudibleAlert.none, .0, .0, .1),
   },
   EventName.pscmLostHandshake: {
-    ET.WARNING: Alert(
-      "RELEASE THE WHEEL",
-      "Handshake lost. Please wait for handshake to occur",
-      AlertStatus.userPrompt, AlertSize.mid,
-      Priority.LOW, VisualAlert.steerRequired, AudibleAlert.chimeWarning1, .4, 2., 3.),
+    ET.IMMEDIATE_DISABLE: ImmediateDisableAlert("PSCM APA Handshake Lost.")
   },
 
   # ********** events that affect controls state transitions **********
