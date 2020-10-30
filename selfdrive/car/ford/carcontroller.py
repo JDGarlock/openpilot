@@ -10,8 +10,8 @@ MAX_STEER_DELTA = 0.2
 TOGGLE_DEBUG = False
 COUNTER_MAX = 7
 
-ANGLE_MAX_BP = [0., 27., 36.]
-ANGLE_MAX_V = [410., 92., 36.]
+ANGLE_MAX_BP = [0., 11., 36.]
+ANGLE_MAX_V = [410., 70., 15.]
 
 ANGLE_DELTA_BP = [0., 5., 15.]
 ANGLE_DELTA_V = [5., .8, .15]     #windup
