@@ -83,13 +83,14 @@ class CarInterface(CarInterfaceBase):
 
     #ret = car.CarState.new_message()               
     ret.canValid = self.cp.can_valid and self.cp_cam.can_valid
-       
+    ret.engineRPM = self.CS.engineRPM
+    
     # events
     events = self.create_common_events(ret)
     
-    if self.CS.lkas_state not in [2, 3] and ret.vEgo > 13.* CV.MPH_TO_MS and ret.cruiseState.enabled:
-      events.add(car.CarEvent.EventName.steerTempUnavailableMute)
-      print("PSCM LOCKOUT") 
+    #if self.CS.lkas_state not in [2, 3] and ret.vEgo > 13.* CV.MPH_TO_MS and ret.cruiseState.enabled:
+      #events.add(car.CarEvent.EventName.steerTempUnavailableMute)
+      #print("PSCM LOCKOUT") 
       
     ret.events = events.to_msg()
 

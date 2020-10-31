@@ -18,7 +18,7 @@ class CarState(CarStateBase):
     ret.vEgoRaw = ((ret.wheelSpeeds.fl + ret.wheelSpeeds.fr + ret.wheelSpeeds.rl + ret.wheelSpeeds.rr) / 4.) / speed_factor
     ret.vEgo, ret.aEgo = self.update_speed_kf(ret.vEgoRaw)
     ret.standstill = not ret.vEgoRaw > 0.001
-    ret.steeringAngle = cp.vl["Steering_Wheel_Data_CG1"]['SteWhlRelInit_An_Sns']
+    ret.steeringAngle = cp.vl["BrakeSnData_5"]['SteWhlRelInit_An_Sns']
     ret.steeringPressed = cp.vl["Lane_Keep_Assist_Status"]['LaHandsOff_B_Actl'] != 0
     ret.steerError = cp.vl["Lane_Keep_Assist_Status"]['LaActDeny_B_Actl'] == 1
     ret.cruiseState.speed = cp.vl["Cruise_Status"]['Set_Speed'] * CV.MPH_TO_MS
@@ -26,7 +26,7 @@ class CarState(CarStateBase):
     ret.cruiseState.available = cp.vl["Cruise_Status"]['Cruise_State'] != 0
     ret.gas = cp.vl["EngineData_14"]['ApedPosScal_Pc_Actl'] / 100.
     ret.gasPressed = ret.gas > 1e-6
-    ret.brakePressed = bool(cp.vl["Cruise_Status"]['Brake_Drv_Appl'])
+    ret.brakePressed = cp.vl["Cruise_Status"]['Brake_Drv_Appl'] == 2
     ret.brakeLights = bool(cp.vl["BCM_to_HS_Body"]['Brake_Lights'])
     ret.genericToggle = bool(cp.vl["Steering_Buttons"]['Dist_Incr'])
     self.latLimit = cp.vl["Lane_Keep_Assist_Status"]['LatCtlLim_D_Stat']
@@ -43,6 +43,7 @@ class CarState(CarStateBase):
     self.cruise_mode = cp.vl["ACCDATA_3"]['AccMemEnbl_B_RqDrv']
     ret.stockFcw = cp.vl["ACCDATA_3"]['FcwVisblWarn_B_Rq'] !=0
     ret.stockAeb = self.cruise_mode !=0 and ret.cruiseState.enabled and ret.stockFcw
+    self.engineRPM = cp.vl["EngineData_14"]['EngAout_N_Actl']
     #print ("Curvature:", self.laneCurvature, "lkas_state:", self.lkas_state, "steer_override:", ret.steeringPressed) #debug to check lockout state. 
     #Gear Shifter
     gear = cp.vl["TransGearData"]['GearLvrPos_D_Actl']
@@ -84,7 +85,7 @@ class CarState(CarStateBase):
       ("WhlRl_W_Meas", "WheelSpeed", 0.),
       ("WhlFr_W_Meas", "WheelSpeed", 0.),
       ("WhlFl_W_Meas", "WheelSpeed", 0.),
-      ("SteWhlRelInit_An_Sns", "Steering_Wheel_Data_CG1", 0.),
+      ("SteWhlRelInit_An_Sns", "BrakeSnData_5", 0.),
       ("Cruise_State", "Cruise_Status", 0.),
       ("Set_Speed", "Cruise_Status", 0.),
       ("ApedPosScal_Pc_Actl", "EngineData_14", 0.),
@@ -115,6 +116,7 @@ class CarState(CarStateBase):
       ("SAPPAngleControlStat1", "EPAS_INFO", 0.),
       ("SteeringColumnTorque", "EPAS_INFO", 0.),
       ("AccMemEnbl_B_RqDrv", "ACCDATA_3", 0.),
+      ("EngAout_N_Actl", "EngineData_14", 0.),
     ]
     
     checks = []
