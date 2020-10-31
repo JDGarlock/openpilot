@@ -8,6 +8,13 @@ MAX_STEER_DELTA = 1
 TOGGLE_DEBUG = False
 COUNTER_MAX = 7
 
+ANGLE_MAX_BP = [0., 36.]
+ANGLE_MAX_V = [40., 15.]
+
+ANGLE_DELTA_BP = [0., 5., 15.]
+ANGLE_DELTA_V = [5., .8, .15]     #windup
+ANGLE_DELTA_VU = [5., 3.5, 0.4] #unwind
+
 class CarController():
   def __init__(self, dbc_name, CP, VM):
     self.packer = CANPacker(dbc_name)
@@ -25,7 +32,7 @@ class CarController():
     can_sends = []
     steer_alert = visual_alert == car.CarControl.HUDControl.VisualAlert.steerRequired
     
-    apply_steer = actuators.steer
+    apply_steer = actuators.steerAngle
     if (frame % 100) == 0:
       if enabled:
         self.lkasCounter +=1 
@@ -40,12 +47,18 @@ class CarController():
       #Stock IPMA Message is 33Hz. PSCM accepts commands at 100hz. 
         curvature = self.vehicle_model.calc_curvature(actuators.steerAngle*np.pi/180., CS.out.vEgo)
         self.lkas_action = 2   # 0-7 accepted. 2 and 4 have action. 
-        #if self.lkasCounter < COUNTER_MAX:
-        #  can_sends.append(create_steer_command(self.packer, apply_steer, enabled, CS.lkas_state, CS.out.steeringAngle, curvature, self.lkas_action))
-        #else:
-        #  self.lkasCounter = 0
-        #  print("CAN Message successfully blocked for 1 message")
-        #  pass
+        angle_lim = interp(CS.out.vEgo, ANGLE_MAX_BP, ANGLE_MAX_V)
+        apply_steer = clip(apply_steer, -angle_lim, angle_lim)
+        self.lastAngle = apply_steer
+        if enabled:
+          if self.lastAngle * apply_steer > 0. and abs(apply_steer) > abs(self.lastAngle):
+            angle_rate_lim = interp(CS.out.vEgo, ANGLE_DELTA_BP, ANGLE_DELTA_V)
+          else:
+            angle_rate_lim = interp(CS.out.vEgo, ANGLE_DELTA_BP, ANGLE_DELTA_VU)
+          
+          apply_steer = clip(apply_steer, self.lastAngle - angle_rate_lim, self.lastAngle + angle_rate_lim) 
+        else:
+          apply_steer = CS.out.steeringAngle
         can_sends.append(create_steer_command(self.packer, apply_steer, enabled, CS.lkas_state, CS.out.steeringAngle, curvature, self.lkas_action))
         self.generic_toggle_last = CS.out.genericToggle
       if (frame % 1) == 0 or (self.enabled_last != enabled) or (self.main_on_last != CS.out.cruiseState.available) or (self.steer_alert_last != steer_alert):
